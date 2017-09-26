@@ -2,11 +2,54 @@
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Demo House</title>
+    <title>水印背景</title>
+    <style>
+        #full-watermark{
+            position: fixed;
+            top:0;
+            right: 0;
+            bottom:0;
+            left:0;
+            z-index: 50;
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
-    demo1
+    <script>
+        window.onload = function(){
+            var tpl = '<canvas id="watermark" width="100px" height="100px" style="display:block;"></canvas>'
+            document.body.innerHTML += tpl
+            var watermark = document.getElementById('watermark')
+            var ctx = watermark.getContext('2d')
+            ctx.font = '18px 黑体'
+            ctx.rotate(-20 * Math.PI / 180) // rotate() 方法旋转当前的绘图
+            ctx.fillStyle = 'rgba(100,100,100,0.1)' // fillStyle 属性设置或返回用于填充绘画的颜色、渐变或模式
+            ctx.fillText('无fuck可说', -20, 80) // fillText() 方法在画布上绘制填色的文本
+            ctx.rotate(20 * Math.PI/180)
+            var tplFull = '<canvas id="full-watermark"></canvas>'
+            document.body.innerHTML += tplFull
+            var full = document.getElementById('full-watermark')
+            full.width = screen.width
+            full.height = screen.height
+            ctx_f = full.getContext('2d')
+            var pat = ctx_f.createPattern(watermark, "repeat") // 水平垂直方向上重复图像
+            ctx_f.fillStyle = pat
+            ctx_f.fillRect(0, 0, full.width, full.height) // fillRect() 方法绘制“已填色”的矩形
+            document.getElementById('watermark').remove()
+
+            window.addEventListener('resize', function () {
+                ctx_f.clearRect(0, 0, full.width, full.height) // clearRect() 方法清空给定矩形内的指定像素
+                full.width = screen.width
+                full.height = screen.height
+                ctx_f.createPattern(watermark, "repeat")
+                ctx_f.fillStyle = pat
+                ctx_f.fillRect(0, 0, full.width, full.height)
+            })
+
+        }
+    </script>
 </body>
 </html>
