@@ -20,9 +20,11 @@
 <body>
     <script>
         window.onload = function(){
-            var tpl = '<canvas id="watermark" width="100px" height="100px" style="display:block;"></canvas>'
+            var tpl = '<canvas id="watermark" style="display:none;"></canvas>'
             document.body.innerHTML += tpl
             var watermark = document.getElementById('watermark')
+            watermark.width = 100
+            watermark.height = 100
             var ctx = watermark.getContext('2d')
             ctx.font = '18px 黑体'
             ctx.rotate(-20 * Math.PI / 180) // rotate() 方法旋转当前的绘图
