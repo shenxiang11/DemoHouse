@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>仿知乎省略文本</title>
+  <style>
+    .text-container {
+      width: 200px;
+      border: 1px solid #999;
+      overflow: hidden;
+      line-height: 1.67;
+      position: relative;
+    }
+    .text-container.ellipsis {
+      height: 100px;
+    }
+    .ellipsis:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: linear-gradient(transparent,rgba(255,255,255,1));
+    }
+  </style>
+</head>
+<body>
+  <div id="target" class="text-container ellipsis">
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem impedit et eos doloribus totam quae neque itaque sint, eum necessitatibus repellendus? Rerum exercitationem cumque ad, tempora aut cum dolor itaque?
+  </div>
+  <a href="javascript: toggle();" id="btn">查看全文</a>
+
+  <script>
+    function toggle(e) {
+      var btn = document.getElementById('btn')
+      var target = document.getElementById('target')
+      var classNames = target.className.split(' ')
+      if (containsClass('ellipsis', classNames)) {
+        target.className = 'text-container'
+        btn.innerHTML = '收起'
+      } else {
+        target.className = 'text-container ellipsis'
+        btn.innerHTML = '查看全文'
+      }
+    }
+
+    function containsClass(classname, arr) {
+      var b = false
+      arr.forEach(function(item) {
+        if (item === classname) {
+          b = true
+        }
+      })
+      return b
+    }
+  </script>
+</body>
+</html>
